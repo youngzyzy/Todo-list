@@ -116,6 +116,10 @@
   cursor: pointer;
 }
 
+.todo__item-left i {
+  margin-right: 5px;
+}
+
 @media (max-width: 600px) {
   .container {
     width: 350px;
