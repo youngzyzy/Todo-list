@@ -5,6 +5,7 @@ const clearBtn = document.querySelector(".clearAllBtn");
 
 function displayItems() {
   const itemsFromStorage = getItemsFromStorage();
+
   itemsFromStorage.forEach((item) => {
     addItemToDom(item);
   });
@@ -23,7 +24,30 @@ function onAddItemSubmit(e) {
 
   addItemToStorage(newItem);
   itemInput.value = "";
+
+  //try
+  addBooleanToStorage(false);
+
+  //
 }
+// try
+function addBooleanToStorage(boolean) {
+  let booleanFromStorage = getBooleanFromStorage();
+  booleanFromStorage.push(boolean);
+  localStorage.setItem("boolean", JSON.stringify(booleanFromStorage));
+}
+//
+//try
+function getBooleanFromStorage() {
+  let booleanFromStorage;
+  if (localStorage.getItem("boolean") === null) {
+    booleanFromStorage = [];
+  } else {
+    booleanFromStorage = JSON.parse(localStorage.getItem("boolean"));
+  }
+  return booleanFromStorage;
+}
+//
 
 function addItemToDom(newItem) {
   const todoItem = document.createElement("div");
@@ -71,8 +95,15 @@ function onItemClick(e) {
 
 function modifyCompleted(iconElement, pElement) {
   pElement.classList.toggle("strikethrough");
-  //try
+  toggleIcon(iconElement);
 
+  //try
+  let index = getIndex(pElement.textContent);
+  modifyBooleanInStorage(index);
+  //
+}
+
+function toggleIcon(iconElement) {
   if (iconElement.classList.contains("fa-circle")) {
     iconElement.classList.remove("fa-circle");
     iconElement.classList.add("fa-square-check");
@@ -80,6 +111,32 @@ function modifyCompleted(iconElement, pElement) {
     iconElement.classList.add("fa-circle");
     iconElement.classList.remove("fa-square-check");
   }
+}
+
+function modifyBooleanInStorage(index) {
+  let booleanFromStorage = getBooleanFromStorage();
+  if (booleanFromStorage[index] === false) {
+    booleanFromStorage[index] = true;
+  } else {
+    booleanFromStorage[index] = false;
+  }
+  setBooleanInStorage(booleanFromStorage);
+}
+
+function setBooleanInStorage(newBooleanArray) {
+  localStorage.setItem("boolean", JSON.stringify(newBooleanArray));
+}
+
+function getIndex(textContent) {
+  let itemsFromStorage = getItemsFromStorage();
+  let index = 0;
+  itemsFromStorage.forEach((i) => {
+    if (i === textContent) {
+      indexOfStrikethrough = index;
+    }
+    index++;
+  });
+  return indexOfStrikethrough;
 }
 
 function removeItem(item) {
@@ -119,3 +176,5 @@ itemForm.addEventListener("submit", onAddItemSubmit);
 todoItems.addEventListener("click", onItemClick);
 clearBtn.addEventListener("click", clearAllItems);
 document.addEventListener("DOMContentLoaded", displayItems);
+
+//later make it so cant add duplicates
