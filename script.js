@@ -5,18 +5,31 @@ const clearBtn = document.querySelector(".clearAllBtn");
 
 function displayItems() {
   const itemsFromStorage = getItemsFromStorage();
-
+  const booleanFromStorage = getBooleanFromStorage();
+  let i = 0;
   itemsFromStorage.forEach((item) => {
-    addItemToDom(item);
+    if (booleanFromStorage[i] === true) {
+      addItemToDom(item, true);
+    } else {
+      addItemToDom(item, false);
+    }
+    i++;
   });
 }
 
 function onAddItemSubmit(e) {
   e.preventDefault();
   const newItem = itemInput.value;
-
+  //check if trying to enter empty task
   if (newItem === "") {
     alert("Please add an item");
+    return;
+  }
+
+  //check if entering task already in todo list
+  if (checkIfAlreadyInStorage(newItem)) {
+    alert("already in storage!");
+    itemInput.value = "";
     return;
   }
 
@@ -30,7 +43,19 @@ function onAddItemSubmit(e) {
 
   //
 }
+
+function checkIfAlreadyInStorage(newItem) {
+  const itemsFromStorage = getItemsFromStorage();
+  let bool = false;
+  itemsFromStorage.forEach((item) => {
+    if (item === newItem) {
+      bool = true;
+    }
+  });
+  return bool;
+}
 // try
+
 function addBooleanToStorage(boolean) {
   let booleanFromStorage = getBooleanFromStorage();
   booleanFromStorage.push(boolean);
@@ -49,7 +74,7 @@ function getBooleanFromStorage() {
 }
 //
 
-function addItemToDom(newItem) {
+function addItemToDom(newItem, boolean) {
   const todoItem = document.createElement("div");
   todoItem.classList.add("todo-item");
 
@@ -60,6 +85,13 @@ function addItemToDom(newItem) {
 <div class="todo__item-right remove-item">
   <i class="fa-solid fa-x"></i>
 </div>`;
+  if (boolean === true) {
+    toggleIcon(todoItem.firstElementChild.firstElementChild);
+    todoItem.firstElementChild
+      .querySelector(".todo__item-left-p")
+      .classList.add("strikethrough");
+  }
+
   todoItems.appendChild(todoItem);
 }
 
@@ -141,16 +173,24 @@ function getIndex(textContent) {
 
 function removeItem(item) {
   const textContent = item.querySelector(".todo__item-left-p").textContent;
+  const index = getIndex(textContent);
 
   //remove from dom
   if (confirm("remove item?")) {
     item.remove();
 
-    //remove from storage
+    //remove item from storage
     removeItemFromStorage(textContent);
-
-    //CHECKUI();
+    //remove boolean from storage
+    removeBooleanFromStorage(index);
   }
+}
+
+function removeBooleanFromStorage(index) {
+  let booleanFromStorage = getBooleanFromStorage();
+  booleanFromStorage.splice(index, 1);
+
+  localStorage.setItem("boolean", JSON.stringify(booleanFromStorage));
 }
 
 function clearAllItems(e) {
@@ -176,5 +216,3 @@ itemForm.addEventListener("submit", onAddItemSubmit);
 todoItems.addEventListener("click", onItemClick);
 clearBtn.addEventListener("click", clearAllItems);
 document.addEventListener("DOMContentLoaded", displayItems);
-
-//later make it so cant add duplicates

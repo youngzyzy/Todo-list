@@ -16,9 +16,12 @@
 }
 
 .container {
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+
   max-width: 900px;
   width: 500px;
-  border: 1px solid black;
+
   padding: 2rem;
   background-color: white;
   margin-bottom: 10rem;
@@ -111,4 +114,10 @@
   border-radius: 15px;
   border: none;
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 350px;
+  }
 }
