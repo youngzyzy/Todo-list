@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="main__container">
+      <div class="container">
+        <div class="container__header">
+          <i class="fa-solid fa-list fa-2x"></i>
+          <h1 class="container__header-h1">To-Do List</h1>
+        </div>
+        <form id="item-form" action="" class="form__control">
+          <div class="container__input-section">
+            <input
+              placeholder="Enter a task"
+              type="text"
+              class="container__input"
+            />
+            <button class="container__button">Add</button>
+          </div>
+        </form>
+        <section class="todo-items">
+          <!-- <div class="todo-item">
+            <div class="todo__item-left">
+              <i class="fa-regular fa-circle"></i>
+              <p class="todo__item-left-p">Do this</p>
+            </div>
+            <div class="todo__item-right remove-item">
+              <i class="fa-solid fa-x"></i>
+            </div>
+          </div> -->
+        </section>
+        <div class="clearAll">
+          <button class="clearAllBtn">Clear All</button>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
